@@ -24,20 +24,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> _todoItems = [];
+
+  void addTodoItem() {
+    setState(() {
+      int index = _todoItems.length;
+      _todoItems.add('Index: ' + index.toString());
+    });
+    print(_todoItems);
+  }
+
+  Widget _buildTodoList() {
+    return new ListView.builder(
+      itemBuilder: (context, index) {
+        if (index < _todoItems.length) {
+          return _buildTodoItem(_todoItems[index]);
+        }
+      },
+    );
+  }
+
+  Widget _buildTodoItem(String todoText) {
+    return new ListTile(title: new Text(todoText));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: _buildTodoList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: addTodoItem,
         child: Icon(
           Icons.add,
           color: Colors.white,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Center(
-        child: Text('Todo'),
-      ),
     );
   }
 }
